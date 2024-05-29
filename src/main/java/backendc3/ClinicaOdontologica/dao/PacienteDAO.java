@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PacienteDAOH2 implements IDao<Paciente> {
+public class PacienteDAO implements IDao<Paciente> {
 
-    private static final Logger logger = Logger.getLogger(PacienteDAOH2.class);
+    private static final Logger logger = Logger.getLogger(PacienteDAO.class);
 
     private static final String SQL_SELECT_ONE = "SELECT * FROM PACIENTES WHERE ID = ?";
     private static final String SQL_SELECT_ALL = "SELECT * FROM PACIENTES";
@@ -21,7 +21,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
     private static final String SQL_UPDATE = "UPDATE PACIENTES SET NOMBRE = ?, APELLIDO = ?, CEDULA = ?, FECHA_INGRESO = ?, DOMICILIO_ID = ?, EMAIL = ? WHERE ID = ?";
     private static final String SQL_DELETE = "DELETE FROM PACIENTES WHERE ID = ?";
 
-    public PacienteDAOH2() {
+    public PacienteDAO() {
         DataBase.crearTablas();
     }
 
@@ -30,7 +30,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
     public Paciente guardar(Paciente paciente) {
         logger.info("::: Guardando paciente :::");
         Connection connection = null;
-        DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+        DomicilioDAO domicilioDAOH2 = new DomicilioDAO();
         Domicilio domicilio = domicilioDAOH2.guardar(paciente.getDomicilio());
         try {
             connection = DataBase.getConnection();
@@ -69,7 +69,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
             // guardar el resultado
             ResultSet pacienteQuery = psSelectOne.executeQuery();
 
-            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+            DomicilioDAO domicilioDAOH2 = new DomicilioDAO();
             while (pacienteQuery.next()) {
                 domicilio = domicilioDAOH2.buscarPorId(pacienteQuery.getInt(6));
                 paciente = new Paciente(
@@ -106,7 +106,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
     public void actualizar(Paciente paciente) {
         logger.info("::: Actualizando paciente :::");
         Connection connection = null;
-        DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+        DomicilioDAO domicilioDAOH2 = new DomicilioDAO();
         try {
             connection = DataBase.getConnection();
             domicilioDAOH2.actualizar(paciente.getDomicilio());
@@ -139,7 +139,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
             // guardar el resultado
             ResultSet pacienteQuery = psSelectAll.executeQuery();
 
-            DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+            DomicilioDAO domicilioDAOH2 = new DomicilioDAO();
             while (pacienteQuery.next()) {
                 domicilio = domicilioDAOH2.buscarPorId(pacienteQuery.getInt(6));
                 paciente = new Paciente(
@@ -165,7 +165,7 @@ public class PacienteDAOH2 implements IDao<Paciente> {
         Connection connection = null;
         Paciente paciente = null;
         Domicilio domicilio = null;
-        DomicilioDAOH2 domicilioDAOH2 = new DomicilioDAOH2();
+        DomicilioDAO domicilioDAOH2 = new DomicilioDAO();
         try {
             connection = DataBase.getConnection();
             PreparedStatement psSelectOne = connection.prepareStatement(SQL_SELECT_BY_EMAIL);

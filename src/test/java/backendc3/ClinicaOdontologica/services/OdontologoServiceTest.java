@@ -19,7 +19,7 @@ public class OdontologoServiceTest {
 
         DataBase.crearTablas();
         OdontologoService odontologoService = new OdontologoService();
-        Odontologo odontologoGuardado = odontologoService.guardarOdontologoEnH2(odontologo);
+        Odontologo odontologoGuardado = odontologoService.guardarOdontologo(odontologo);
 
         Assertions.assertTrue(odontologoGuardado != null);
     }
@@ -28,7 +28,7 @@ public class OdontologoServiceTest {
     public void buscarTodosEnH2() {
         DataBase.crearTablas();
         OdontologoService odontologoService = new OdontologoService();
-        Assertions.assertTrue(odontologoService.buscarTodosEnH2().size() == 2);
+        Assertions.assertTrue(odontologoService.buscarTodos().size() == 2);
     }
 
 }

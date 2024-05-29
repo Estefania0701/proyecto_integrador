@@ -2,7 +2,6 @@ package backendc3.ClinicaOdontologica.controller;
 
 import backendc3.ClinicaOdontologica.model.Paciente;
 import backendc3.ClinicaOdontologica.service.PacienteService;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,11 +18,8 @@ public class PacienteController {
     }
 
     @GetMapping()
-    public String buscarPacientePorCorreo(Model model, @RequestParam String email) {
-        Paciente paciente = pacienteService.buscarPorEmail(email);
-        model.addAttribute("nombre", paciente.getNombre());
-        model.addAttribute("apellido", paciente.getApellido());
-        return "index";
+    public Paciente buscarPacientePorEmail(@RequestParam String email) {
+        return pacienteService.buscarPorEmail(email);
     }
 
     @GetMapping("/")
@@ -32,7 +28,8 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public Paciente buscarPacientePorId(@PathVariable Integer id) {
+    public Paciente buscarPacientePorId(
+            @PathVariable Integer id) {
         return pacienteService.buscarPorId(id);
     }
 

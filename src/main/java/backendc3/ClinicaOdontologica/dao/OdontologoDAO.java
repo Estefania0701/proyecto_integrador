@@ -10,9 +10,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OdontologoDAOH2 implements IDao<Odontologo> {
+public class OdontologoDAO implements IDao<Odontologo> {
 
-    private static final Logger logger = Logger.getLogger(OdontologoDAOH2.class);
+    private static final Logger logger = Logger.getLogger(OdontologoDAO.class);
     private static final String SQL_INSERT = "INSERT INTO ODONTOLOGOS (MATRICULA, NOMBRE, APELLIDO) VALUES (?, ?, ?)";
     private static final String SQL_SELECT_ALL = "SELECT * FROM ODONTOLOGOS";
     private static final String SQL_SELECT_ONE = "SELECT * FROM ODONTOLOGOS WHERE ID = ?";

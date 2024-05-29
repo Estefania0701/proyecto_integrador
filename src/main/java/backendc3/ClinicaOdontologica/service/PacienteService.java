@@ -2,7 +2,7 @@ package backendc3.ClinicaOdontologica.service;
 
 
 import backendc3.ClinicaOdontologica.dao.IDao;
-import backendc3.ClinicaOdontologica.dao.PacienteDAOH2;
+import backendc3.ClinicaOdontologica.dao.PacienteDAO;
 import backendc3.ClinicaOdontologica.model.Paciente;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class PacienteService {
     private IDao<Paciente> pacienteDAO;
 
     public PacienteService() {
-        this.pacienteDAO = new PacienteDAOH2();
+        this.pacienteDAO = new PacienteDAO();
     }
 
     public Paciente guardarPaciente(Paciente paciente) {

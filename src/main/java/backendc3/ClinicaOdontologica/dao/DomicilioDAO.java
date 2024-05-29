@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.List;
 
-public class DomicilioDAOH2 implements IDao<Domicilio> {
+public class DomicilioDAO implements IDao<Domicilio> {
 
-    private static final Logger logger = Logger.getLogger(DomicilioDAOH2.class);
+    private static final Logger logger = Logger.getLogger(DomicilioDAO.class);
 
     private static final String SQL_SELECT_ONE = "SELECT * FROM DOMICILIOS WHERE ID = ?";
     private static final String SQL_SELECT_ALL = "SELECT * FROM DOMICILIOS";
