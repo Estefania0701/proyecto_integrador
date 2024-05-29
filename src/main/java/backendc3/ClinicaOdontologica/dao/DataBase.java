@@ -31,7 +31,7 @@ public class DataBase {
     private static final String SQL_DROP_CREATE_ODONTOLOGOS= "DROP TABLE IF EXISTS ODONTOLOGOS; " +
             "CREATE TABLE ODONTOLOGOS (" +
             "ID INT AUTO_INCREMENT PRIMARY KEY, " +
-            "NUMERO_MATRICULA INT NOT NULL, " +
+            "MATRICULA INT NOT NULL, " +
             "NOMBRE VARCHAR(100) NOT NULL, " +
             "APELLIDO VARCHAR(100) NOT NULL)";
 
@@ -42,9 +42,9 @@ public class DataBase {
             "('CL Falsa', 123, 'Alabama', 'Springfield'), " +
             "('KR Falsa', 456, 'Springfield', 'Springfield')";
 
-    private static final String SQL_PRUEBA_ODONTOLOGOS = "INSERT INTO ODONTOLOGOS (NUMERO_MATRICULA, NOMBRE, APELLIDO) VALUES " +
-            "(123456, 'Carlos', 'Rúa'), " +
-            "(876543, 'Luisa', 'Castro');";
+    private static final String SQL_PRUEBA_ODONTOLOGOS = "INSERT INTO ODONTOLOGOS (MATRICULA, NOMBRE, APELLIDO) VALUES " +
+            "('abc123', 'Carlos', 'Rúa'), " +
+            "('cde987', 'Luisa', 'Castro');";
 
     public static void crearTablas() {
         Connection connection = null;

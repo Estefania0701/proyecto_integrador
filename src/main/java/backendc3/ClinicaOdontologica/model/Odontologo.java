@@ -10,21 +10,21 @@ public class Odontologo {
 
     private Integer id;
 
-    private Integer numeroMatricula;
+    private String matricula;
 
     private String nombre;
 
     private String apellido;
 
-    public Odontologo(Integer numeroMatricula, String nombre, String apellido) {
-        this.numeroMatricula = numeroMatricula;
+    public Odontologo(String matricula, String nombre, String apellido) {
+        this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
     }
 
-    public Odontologo(Integer id, Integer numeroMatricula, String nombre, String apellido) {
+    public Odontologo(Integer id, String  matricula, String nombre, String apellido) {
         this.id = id;
-        this.numeroMatricula = numeroMatricula;
+        this.matricula = matricula;
         this.nombre = nombre;
         this.apellido = apellido;
     }

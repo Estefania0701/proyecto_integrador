@@ -12,7 +12,7 @@ public class OdontologoServiceTest {
     @Test
     public void guardarOdonotologoEnH2() {
         Odontologo odontologo = new Odontologo(
-                123456,
+                "123456",
             "Juan",
             "Perez"
         );
