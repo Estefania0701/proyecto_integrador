@@ -31,7 +31,7 @@ public class DataBase {
     private static final String SQL_DROP_CREATE_ODONTOLOGOS= "DROP TABLE IF EXISTS ODONTOLOGOS; " +
             "CREATE TABLE ODONTOLOGOS (" +
             "ID INT AUTO_INCREMENT PRIMARY KEY, " +
-            "MATRICULA INT NOT NULL, " +
+            "MATRICULA VARCHAR(100) NULL, " +
             "NOMBRE VARCHAR(100) NOT NULL, " +
             "APELLIDO VARCHAR(100) NOT NULL)";
 
