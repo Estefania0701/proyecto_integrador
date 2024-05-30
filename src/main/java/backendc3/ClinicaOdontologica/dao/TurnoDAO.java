@@ -1,15 +1,14 @@
 package backendc3.ClinicaOdontologica.dao;
 
 import backendc3.ClinicaOdontologica.model.Turno;
-import backendc3.ClinicaOdontologica.service.PacienteService;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TurnosDAOLista implements IDao<Turno> {
+public class TurnoDAO implements IDao<Turno> {
 
-    private static final Logger logger = Logger.getLogger(TurnosDAOLista.class);
+    private static final Logger logger = Logger.getLogger(TurnoDAO.class);
 
     private List<Turno> turnos = new ArrayList<>();
 
