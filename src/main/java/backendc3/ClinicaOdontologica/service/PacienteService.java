@@ -1,40 +1,54 @@
 package backendc3.ClinicaOdontologica.service;
 
-
-import backendc3.ClinicaOdontologica.dao.IDao;
-import backendc3.ClinicaOdontologica.dao.PacienteDAO;
-import backendc3.ClinicaOdontologica.model.Paciente;
+import backendc3.ClinicaOdontologica.entity.Paciente;
+import backendc3.ClinicaOdontologica.repository.PacienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PacienteService {
-    private IDao<Paciente> pacienteDAO;
 
-    public PacienteService() {
-        this.pacienteDAO = new PacienteDAO();
-    }
+    @Autowired
+    private PacienteRepository repository;
 
-    public Paciente guardarPaciente(Paciente paciente) {
-        return pacienteDAO.guardar(paciente);
-    }
 
-    public Paciente buscarPorId(Integer id) {
-        return pacienteDAO.buscarPorId(id);
+    public Paciente buscarPorId(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     public Paciente buscarPorEmail(String email) {
-        return pacienteDAO.buscarPorString(email);
+        return repository.findByEmail(email).orElse(null);
     }
 
-    public void actualizarPaciente(Paciente paciente) {
-        pacienteDAO.actualizar(paciente);
+    public List<Paciente> buscarTodos() {
+        return repository.findAll();
     }
 
-    public void eliminarPaciente(Integer id) {
-        pacienteDAO.eliminar(id);
+    public Paciente guardar(Paciente paciente) {
+        return repository.save(paciente);
     }
 
-    public List<Paciente> listarPacientes() {
-        return pacienteDAO.buscarTodos();
+    public Paciente actualizar(Paciente paciente) {
+        Paciente pacienteExistente = buscarPorId(paciente.getId());
+        if (pacienteExistente == null) {
+            return null;
+        }
+        pacienteExistente.setNombre(paciente.getNombre());
+        pacienteExistente.setApellido(paciente.getApellido());
+        pacienteExistente.setEmail(paciente.getEmail());
+        pacienteExistente.setFechaIngreso(paciente.getFechaIngreso());
+        pacienteExistente.setDomicilio(paciente.getDomicilio());
+        return repository.save(pacienteExistente);
+    }
+
+    public boolean eliminar(Long id) {
+        Paciente pacienteEncontrado = buscarPorId(id);
+        if (pacienteEncontrado == null) {
+            return false;
+        }
+        repository.delete(pacienteEncontrado);
+        return true;
     }
 }

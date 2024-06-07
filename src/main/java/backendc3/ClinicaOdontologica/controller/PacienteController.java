@@ -1,7 +1,9 @@
 package backendc3.ClinicaOdontologica.controller;
 
-import backendc3.ClinicaOdontologica.model.Paciente;
+import backendc3.ClinicaOdontologica.entity.Paciente;
 import backendc3.ClinicaOdontologica.service.PacienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,53 +13,57 @@ import java.util.List;
 @RequestMapping("/pacientes")
 public class PacienteController {
 
-    private PacienteService pacienteService;
+    @Autowired
+    private PacienteService service;
 
-    public PacienteController() {
-        this.pacienteService = new PacienteService();
-    }
-
-    @GetMapping()
-    public Paciente buscarPacientePorEmail(@RequestParam String email) {
-        return pacienteService.buscarPorEmail(email);
-    }
-
-    @GetMapping("/")
-    public List<Paciente> listarPacientes() {
-        return pacienteService.listarPacientes();
+    @GetMapping
+    public ResponseEntity<List<Paciente>> listar() {
+        List<Paciente> pacientes = service.buscarTodos();
+        return ResponseEntity.ok(pacientes);
     }
 
     @GetMapping("/{id}")
-    public Paciente buscarPacientePorId(
-            @PathVariable Integer id) {
-        return pacienteService.buscarPorId(id);
-    }
-
-    @PostMapping("/guardar")
-    public Paciente guardarPaciente(
-            @RequestBody Paciente paciente) {
-        return pacienteService.guardarPaciente(paciente);
-    }
-
-    @PutMapping("/actualizar")
-    public String actualizarPaciente(
-            @RequestBody Paciente paciente) {
-        Paciente pacienteBuscado = pacienteService.buscarPorId(paciente.getId());
-        if (pacienteBuscado != null) {
-            pacienteService.actualizarPaciente(paciente);
-            return "Paciente actualizado";
+    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id) {
+        Paciente pacienteEncontrado = service.buscarPorId(id);
+        if (pacienteEncontrado != null) {
+            return ResponseEntity.ok(pacienteEncontrado);
         }
-        return "Paciente no encontrado";
+        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/eliminar/{id}")
-    public String eliminarPaciente(@PathVariable Integer id) {
-        Paciente paciente = pacienteService.buscarPorId(id);
-        if (paciente != null) {
-            pacienteService.eliminarPaciente(id);
-            return "Paciente eliminado";
+    @GetMapping("/buscar")
+    public ResponseEntity<Paciente> buscarPorEmail(@RequestParam String email) {
+        Paciente pacienteEncontrado = service.buscarPorEmail(email);
+        if (pacienteEncontrado != null) {
+            return ResponseEntity.ok(pacienteEncontrado);
         }
-        return "Paciente no encontrado";
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public ResponseEntity<Paciente> guardarPaciente(
+            @RequestBody Paciente paciente) {
+        Paciente pacienteGuardado = service.guardar(paciente);
+        return ResponseEntity.ok(pacienteGuardado);
+    }
+
+    @PutMapping
+    public ResponseEntity<Paciente> actualizarPaciente(
+            @RequestBody Paciente paciente) {
+        Paciente pacienteActualizado = service.actualizar(paciente);
+        if (pacienteActualizado != null) {
+            return ResponseEntity.ok(pacienteActualizado);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> eliminarPaciente(@PathVariable Long id) {
+        boolean eliminado = service.eliminar(id);
+        if (eliminado) {
+            return ResponseEntity.ok("Paciente eliminado");
+        }
+        return ResponseEntity.badRequest().build();
     }
 
 }

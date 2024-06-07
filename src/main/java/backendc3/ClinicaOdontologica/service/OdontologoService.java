@@ -1,44 +1,52 @@
 package backendc3.ClinicaOdontologica.service;
 
-;
-
-import backendc3.ClinicaOdontologica.dao.IDao;
-import backendc3.ClinicaOdontologica.dao.OdontologoDAO;
-import backendc3.ClinicaOdontologica.model.Odontologo;
+import backendc3.ClinicaOdontologica.entity.Odontologo;
+import backendc3.ClinicaOdontologica.repository.OdontologoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OdontologoService {
 
-    private IDao<Odontologo> odontologoDAO;
+    @Autowired
+    private OdontologoRepository repository;
 
-    public OdontologoService() {
-        this.odontologoDAO = new OdontologoDAO();
+    public Odontologo buscarPorId(Long id){
+        return repository.findById(id).orElse(null);
     }
 
-    public Odontologo guardarOdontologo(Odontologo odontologo) {
-        odontologoDAO.guardar(odontologo);
-        return odontologo;
+    public Odontologo buscarPorMatricula(String matricula){
+        return repository.findByMatricula(matricula).orElse(null);
     }
 
-    public Odontologo buscarPorId(Integer id) {
-        return odontologoDAO.buscarPorId(id);
+    public List<Odontologo> buscarTodos(){
+        return repository.findAll();
     }
 
-    public Odontologo buscarPorMatricula(String matricula) {
-        return odontologoDAO.buscarPorString(matricula);
+    public Odontologo guardar(Odontologo odontologo){
+        return repository.save(odontologo);
     }
 
-    public void actualizarOdontologo(Odontologo odontologo) {
-        odontologoDAO.actualizar(odontologo);
+    public Odontologo actualizar(Odontologo odontologo){
+        Odontologo odontologoExistente = buscarPorId(odontologo.getId());
+        if(odontologoExistente == null){
+            return null;
+        }
+        odontologoExistente.setNombre(odontologo.getNombre());
+        odontologoExistente.setApellido(odontologo.getApellido());
+        odontologoExistente.setMatricula(odontologo.getMatricula());
+        return repository.save(odontologo);
     }
 
-    public void eliminarOdontologo(Integer id) {
-        odontologoDAO.eliminar(id);
-    }
-
-    public List<Odontologo> buscarTodos() {
-        return odontologoDAO.buscarTodos();
+    public boolean eliminar(Long id) {
+        Odontologo odontologoEncontrado = buscarPorId(id);
+        if(odontologoEncontrado == null) {
+            return false;
+        }
+        repository.delete(odontologoEncontrado);
+        return true;
     }
 
 }
