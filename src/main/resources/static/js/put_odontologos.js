@@ -21,7 +21,7 @@ window.addEventListener('load', function () {
 
         //invocamos utilizando la función fetch la API odontologos con el método PUT que modificará
         //la película que enviaremos en formato JSON
-        const url = '/odontologos/';
+        const url = '/odontologos';
         const settings = {
             method: 'PUT',
             headers: {
