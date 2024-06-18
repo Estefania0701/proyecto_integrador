@@ -3,6 +3,7 @@ package backendc3.ClinicaOdontologica.controller;
 import backendc3.ClinicaOdontologica.entity.Odontologo;
 import backendc3.ClinicaOdontologica.entity.Paciente;
 import backendc3.ClinicaOdontologica.entity.Turno;
+import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
 import backendc3.ClinicaOdontologica.service.OdontologoService;
 import backendc3.ClinicaOdontologica.service.PacienteService;
 import backendc3.ClinicaOdontologica.service.TurnoService;
@@ -39,13 +40,12 @@ public class TurnoController {
 
     @PostMapping
     public ResponseEntity<Turno> guardarTurno(
-            @RequestBody Turno turno) {
+            @RequestBody Turno turno) throws ResourceNotFoundException {
         Turno turnoGuardado = turnoService.guardar(turno);
         if (turnoGuardado != null) {
             return ResponseEntity.ok(turnoGuardado);
-        } else {
-            return ResponseEntity.badRequest().build();
         }
+        throw new ResourceNotFoundException("Paciente u odontólogo no encontrado");
     }
 
     @PutMapping
@@ -60,13 +60,12 @@ public class TurnoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarTurno(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarTurno(@PathVariable Long id) throws ResourceNotFoundException {
         boolean eliminado = turnoService.eliminar(id);
         if (eliminado) {
             return ResponseEntity.ok("Turno eliminado");
-        } else {
-            return ResponseEntity.badRequest().build();
         }
+        throw new ResourceNotFoundException("Turno no encontrado");
     }
 
 }

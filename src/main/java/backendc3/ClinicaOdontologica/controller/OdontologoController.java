@@ -2,6 +2,7 @@ package backendc3.ClinicaOdontologica.controller;
 
 
 import backendc3.ClinicaOdontologica.entity.Odontologo;
+import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
 import backendc3.ClinicaOdontologica.service.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -53,12 +54,12 @@ public class OdontologoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarOdontologo(
-            @PathVariable Long id) {
+            @PathVariable Long id) throws ResourceNotFoundException {
         boolean eliminado = odontologoService.eliminar(id);
         if (eliminado) {
             return ResponseEntity.ok("Odontologo eliminado");
         }
-        return ResponseEntity.badRequest().build();
+        throw new ResourceNotFoundException("Odontologo no encontrado");
     }
 
 }
