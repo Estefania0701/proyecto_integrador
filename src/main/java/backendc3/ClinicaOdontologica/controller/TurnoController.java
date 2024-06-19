@@ -1,11 +1,8 @@
 package backendc3.ClinicaOdontologica.controller;
 
-import backendc3.ClinicaOdontologica.entity.Odontologo;
-import backendc3.ClinicaOdontologica.entity.Paciente;
+import backendc3.ClinicaOdontologica.dto.TurnoDTO;
 import backendc3.ClinicaOdontologica.entity.Turno;
 import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
-import backendc3.ClinicaOdontologica.service.OdontologoService;
-import backendc3.ClinicaOdontologica.service.PacienteService;
 import backendc3.ClinicaOdontologica.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +21,13 @@ public class TurnoController {
 
 
     @GetMapping
-    public ResponseEntity<List<Turno>> buscarTodos() {
+    public ResponseEntity<List<TurnoDTO>> buscarTodos() {
         return ResponseEntity.ok(this.turnoService.buscarTodos());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Turno> buscarPorId(@PathVariable Long id) {
-        Turno turnoBuscado = turnoService.buscarPorId(id);
+    public ResponseEntity<TurnoDTO> buscarPorId(@PathVariable Long id) {
+        TurnoDTO turnoBuscado = turnoService.buscarPorId(id);
         if (turnoBuscado != null) {
             return ResponseEntity.ok(turnoBuscado);
         } else {
@@ -39,9 +36,9 @@ public class TurnoController {
     }
 
     @PostMapping
-    public ResponseEntity<Turno> guardarTurno(
+    public ResponseEntity<TurnoDTO> guardarTurno(
             @RequestBody Turno turno) throws ResourceNotFoundException {
-        Turno turnoGuardado = turnoService.guardar(turno);
+        TurnoDTO turnoGuardado = turnoService.guardar(turno);
         if (turnoGuardado != null) {
             return ResponseEntity.ok(turnoGuardado);
         }
@@ -49,9 +46,9 @@ public class TurnoController {
     }
 
     @PutMapping
-    public ResponseEntity<Turno> actualizarTurno(
-            @RequestBody Turno turno) {
-        Turno turnoActualizado = turnoService.actualizar(turno);
+    public ResponseEntity<TurnoDTO> actualizarTurno(
+            @RequestBody TurnoDTO turno) {
+        TurnoDTO turnoActualizado = turnoService.actualizar(turno);
         if (turnoActualizado != null) {
             return ResponseEntity.ok(turnoActualizado);
         } else {

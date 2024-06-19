@@ -1,5 +1,6 @@
 package backendc3.ClinicaOdontologica.service;
 
+import backendc3.ClinicaOdontologica.dto.TurnoDTO;
 import backendc3.ClinicaOdontologica.entity.Odontologo;
 import backendc3.ClinicaOdontologica.entity.Paciente;
 import backendc3.ClinicaOdontologica.entity.Turno;
@@ -21,40 +22,68 @@ public class TurnoService {
     @Autowired
     OdontologoService odontologoService;
 
-    public Turno buscarPorId(Long id){
-        return repository.findById(id).orElse(null);
+    public TurnoDTO buscarPorId(Long id) {
+        Turno turno = repository.findById(id).orElse(null);
+        if (turno == null) {
+            return null;
+        }
+        return turnoATurnoDTO(turno);
     }
 
-    public List<Turno> buscarTodos(){
-        return repository.findAll();
+    public List<TurnoDTO> buscarTodos() {
+        List<Turno> turnos = repository.findAll();
+        return turnos.stream().map(this::turnoATurnoDTO).toList();
     }
 
-    public Turno guardar(Turno turno){
+    public TurnoDTO guardar(Turno turno) {
         Paciente paciente = pacienteService.buscarPorId(turno.getPaciente().getId());
         Odontologo odontologo = odontologoService.buscarPorId(turno.getOdontologo().getId());
-        if(paciente == null || odontologo == null){
+        if (paciente == null || odontologo == null) {
             return null;
         }
         turno.setPaciente(paciente);
         turno.setOdontologo(odontologo);
-        return repository.save(turno);
+        Turno turnoGuardado = repository.save(turno);
+        return turnoATurnoDTO(turnoGuardado);
     }
 
-    public Turno actualizar(Turno turno){
-        Turno turnoExistente = buscarPorId(turno.getId());
-        if(turnoExistente == null){
+    public TurnoDTO actualizar(TurnoDTO turnoDTO) {
+        Turno turnoExistente = repository.findById(turnoDTO.getId()).orElse(null);
+        Paciente pacienteExistente = pacienteService.buscarPorId(turnoDTO.getPacienteId());
+        Odontologo odontologoExistente = odontologoService.buscarPorId(turnoDTO.getOdontologoId());
+        if (turnoExistente == null || pacienteExistente == null || odontologoExistente == null) {
             return null;
         }
-        turnoExistente.setFecha(turno.getFecha());
-        return repository.save(turnoExistente);
+        Turno turnoActualizado = repository.save(turnoDTOATurno(turnoDTO, pacienteExistente, odontologoExistente));
+        return turnoATurnoDTO(turnoActualizado);
     }
 
-    public boolean eliminar(Long id){
-        Turno turnoEncontrado = buscarPorId(id);
-        if(turnoEncontrado == null){
+    public boolean eliminar(Long id) {
+        Turno turnoEncontrado = repository.findById(id).orElse(null);
+        if (turnoEncontrado == null) {
             return false;
         }
         repository.delete(turnoEncontrado);
         return true;
+    }
+
+    public TurnoDTO turnoATurnoDTO(Turno turno) {
+        TurnoDTO turnoDTO = new TurnoDTO();
+        turnoDTO.setId(turno.getId());
+        turnoDTO.setFecha(turno.getFecha());
+        turnoDTO.setPacienteId(turno.getPaciente().getId());
+        turnoDTO.setOdontologoId(turno.getOdontologo().getId());
+        return turnoDTO;
+    }
+
+    public Turno turnoDTOATurno(TurnoDTO turnoDTO, Paciente paciente, Odontologo odontologo) {
+        Turno turno = new Turno();
+        turno.setId(turnoDTO.getId());
+        turno.setFecha(turnoDTO.getFecha());
+
+        turno.setPaciente(paciente);
+
+        turno.setOdontologo(odontologo);
+        return turno;
     }
 }
