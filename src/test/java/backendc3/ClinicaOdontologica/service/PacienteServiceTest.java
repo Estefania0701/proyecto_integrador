@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +26,6 @@ class PacienteServiceTest {
         Paciente paciente = new Paciente("Estefanía", "Aguas", 1223231, LocalDate.now(), "estefa@mail.com", null);
         Paciente pacienteGuardado = pacienteService.guardar(paciente);
         assertEquals(1L, pacienteGuardado.getId());
-
     }
 
     @Test
@@ -65,12 +63,5 @@ class PacienteServiceTest {
         assertTrue(fueEliminado);
         assertNull(pacienteEliminado);
     }
-
-    @Test
-    void buscarPorEmail() {
-    }
-
-
-
 
 }

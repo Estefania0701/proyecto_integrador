@@ -1,8 +1,8 @@
 package backendc3.ClinicaOdontologica.service;
 
-import backendc3.ClinicaOdontologica.dto.TurnoDTO;
 import backendc3.ClinicaOdontologica.entity.Odontologo;
-import backendc3.ClinicaOdontologica.entity.Paciente;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -14,19 +14,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDate;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
-class TurnoServiceTest {
-
-    @Autowired
-    private TurnoService turnoService;
-
-    @Autowired
-    private PacienteService pacienteService;
+class OdontologoServiceTest {
 
     @Autowired
     private OdontologoService odontologoService;
@@ -34,22 +27,20 @@ class TurnoServiceTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private void cargarDatos() {
-        Paciente paciente = pacienteService.guardar(new Paciente("Estefanía", "Aguas", 1223231, LocalDate.now(), "estefa@mail.com", null));
-        Odontologo odontologo = odontologoService.guardar(new Odontologo("Juan", "Perez", "asd21321"));
-        turnoService.guardar(new TurnoDTO(LocalDate.now(), paciente.getId(), odontologo.getId()));
-    }
-
     @Test
-    void buscarTodos() throws Exception {
-        cargarDatos();
-        MvcResult respuesta = mockMvc.perform(MockMvcRequestBuilders.get("/turnos")
+    void guardar() throws Exception {
+        Odontologo odontologo = new Odontologo("Andrea", "Rúa", "4534jsdf");
+        String odontologoJson = new ObjectMapper().writeValueAsString(odontologo);
+
+        MvcResult respuesta = mockMvc.perform(MockMvcRequestBuilders.post("/odontologos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(odontologoJson)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andReturn();
+
         assertFalse(respuesta.getResponse().getContentAsString().isEmpty());
     }
-
 
 }
