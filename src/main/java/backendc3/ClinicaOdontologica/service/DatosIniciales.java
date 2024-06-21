@@ -29,15 +29,15 @@ public class DatosIniciales implements ApplicationRunner {
     public void run(ApplicationArguments args) {
 
         // crear usuario normal
-        String passwordSinCifrar = "estefa";
+        String passwordSinCifrar = "user";
         String passwordCifrado = passwordEncoder.encode(passwordSinCifrar);
-        Usuario usuario = new Usuario("Estefanía", "estefa", "estefa@gmail.com", passwordCifrado, RolUsuario.ROLE_USER);
+        Usuario usuario = new Usuario("user", "user", "user@mail.com", passwordCifrado, RolUsuario.ROLE_USER);
         usuarioService.guardar(usuario);
 
         // crear usuario admin
         passwordSinCifrar = "admin";
         passwordCifrado = passwordEncoder.encode(passwordSinCifrar);
-        usuario = new Usuario("Admin", "admin", "admin@mail.com", passwordCifrado, RolUsuario.ROLE_ADMIN);
+        usuario = new Usuario("admin", "admin", "admin@mail.com", passwordCifrado, RolUsuario.ROLE_ADMIN);
         usuarioService.guardar(usuario);
 
         // crear dos pacientes

@@ -1,5 +1,6 @@
 package backendc3.ClinicaOdontologica.service;
 
+import backendc3.ClinicaOdontologica.entity.Domicilio;
 import backendc3.ClinicaOdontologica.entity.Paciente;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -23,7 +24,8 @@ class PacienteServiceTest {
     @Test
     @Order(1)
     void guardar() {
-        Paciente paciente = new Paciente("Estefanía", "Aguas", 1223231, LocalDate.now(), "estefa@mail.com", null);
+        Domicilio domicilio = new Domicilio("Calle Falsa", 123, "Springfield", "USA");
+        Paciente paciente = new Paciente("Estefanía", "Aguas", 1223231, LocalDate.now(), "estefa@mail.com", domicilio);
         Paciente pacienteGuardado = pacienteService.guardar(paciente);
         assertEquals(1L, pacienteGuardado.getId());
     }
