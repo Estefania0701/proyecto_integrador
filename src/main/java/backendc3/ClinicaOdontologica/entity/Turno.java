@@ -34,8 +34,4 @@ public class Turno {
         this.odontologo = odontologo;
     }
 
-    public Turno(LocalDate fecha) {
-        this.fecha = fecha;
-    }
-
 }

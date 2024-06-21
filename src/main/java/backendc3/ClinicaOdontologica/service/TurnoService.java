@@ -35,14 +35,14 @@ public class TurnoService {
         return turnos.stream().map(this::turnoATurnoDTO).toList();
     }
 
-    public TurnoDTO guardar(Turno turno) {
-        Paciente paciente = pacienteService.buscarPorId(turno.getPaciente().getId());
-        Odontologo odontologo = odontologoService.buscarPorId(turno.getOdontologo().getId());
+    public TurnoDTO guardar(TurnoDTO turnoDTO) {
+        Paciente paciente = pacienteService.buscarPorId(turnoDTO.getPacienteId());
+        Odontologo odontologo = odontologoService.buscarPorId(turnoDTO.getOdontologoId());
         if (paciente == null || odontologo == null) {
             return null;
         }
-        turno.setPaciente(paciente);
-        turno.setOdontologo(odontologo);
+        Turno turno = turnoDTOATurno(turnoDTO, paciente, odontologo);
+
         Turno turnoGuardado = repository.save(turno);
         return turnoATurnoDTO(turnoGuardado);
     }

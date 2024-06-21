@@ -1,7 +1,7 @@
 package backendc3.ClinicaOdontologica.controller;
 
 import backendc3.ClinicaOdontologica.dto.TurnoDTO;
-import backendc3.ClinicaOdontologica.entity.Turno;
+import backendc3.ClinicaOdontologica.exception.BadRequestException;
 import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
 import backendc3.ClinicaOdontologica.service.TurnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +26,18 @@ public class TurnoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TurnoDTO> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<TurnoDTO> buscarPorId(@PathVariable Long id) throws ResourceNotFoundException {
         TurnoDTO turnoBuscado = turnoService.buscarPorId(id);
         if (turnoBuscado != null) {
             return ResponseEntity.ok(turnoBuscado);
-        } else {
-            return ResponseEntity.notFound().build();
         }
+        throw new ResourceNotFoundException("Turno no encontrado");
     }
 
     @PostMapping
     public ResponseEntity<TurnoDTO> guardarTurno(
-            @RequestBody Turno turno) throws ResourceNotFoundException {
-        TurnoDTO turnoGuardado = turnoService.guardar(turno);
+            @RequestBody TurnoDTO turnoDTO) throws ResourceNotFoundException {
+        TurnoDTO turnoGuardado = turnoService.guardar(turnoDTO);
         if (turnoGuardado != null) {
             return ResponseEntity.ok(turnoGuardado);
         }
@@ -47,13 +46,12 @@ public class TurnoController {
 
     @PutMapping
     public ResponseEntity<TurnoDTO> actualizarTurno(
-            @RequestBody TurnoDTO turno) {
+            @RequestBody TurnoDTO turno) throws BadRequestException {
         TurnoDTO turnoActualizado = turnoService.actualizar(turno);
         if (turnoActualizado != null) {
             return ResponseEntity.ok(turnoActualizado);
-        } else {
-            return ResponseEntity.badRequest().build();
         }
+        throw new BadRequestException("No se pudo actualizar el turno");
     }
 
     @DeleteMapping("/{id}")
