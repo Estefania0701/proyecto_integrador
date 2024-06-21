@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script type="text/javascript" src="/js/get_odontologos.js"></script>
-    <script type="text/javascript" src="/js/put_odontologos.js"></script>
-    <script type="text/javascript" src="/js/delete_odontologos.js"></script>
+    <script type="text/javascript" src="/js/get_turnos.js"></script>
+    <script type="text/javascript" src="/js/put_turnos.js"></script>
+    <script type="text/javascript" src="/js/delete_turnos.js"></script>
 </head>
 <body>
 <div class="container">
@@ -18,20 +18,19 @@
             <a class="nav-link" href="/index.html">Inicio</a>
         </li>
     </ul>
-    <div id="div_odontologo_table">
-        <h1>Odontólogos</h1>
+    <div id="div_turno_table">
+        <h1>Turnos</h1>
         <div class="row col-md-12 table-responsive">
-            <table id="odontologoTable" class="table table-striped">
+            <table id="turnoTable" class="table table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Matrícula</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th></th>
+                    <th>Fecha</th>
+                    <th>Paciente</th>
+                    <th>Odontologo</th>
                 </tr>
                 </thead>
-                <tbody id="odontologoTableBody">
+                <tbody id="turnoTableBody">
 
                 </tbody>
             </table>
@@ -39,23 +38,23 @@
     </div>
     <div class="row">
         <div class="col-sm-6" style="display: none; background-color:#e6fffa; padding:10px; border-radius:3px"
-             id="div_odontologo_updating">
-            <form id="update_odontologo_form">
+             id="div_turno_updating">
+            <form id="update_turno_form">
                 <div class="form-group">
                     <label>Id:</label>
-                    <input type="text" class="form-control" id="odontologo_id" readonly>
+                    <input type="text" class="form-control" id="turno_id" readonly>
                 </div>
                 <div class="form-group">
-                    <label>Matrícula:</label>
-                    <input type="text" class="form-control" placeholder="matricula" id="matricula">
+                    <label>Fecha:</label>
+                    <input type="date" class="form-control" placeholder="fecha" id="fecha">
                 </div>
                 <div class="form-group">
-                    <label>Nombre:</label>
-                    <input type="text" class="form-control" placeholder="nombre" id="nombre">
+                    <label>Paciente:</label>
+                    <input type="text" class="form-control" placeholder="paciente" id="paciente">
                 </div>
                 <div class="form-group">
-                    <label>Apellido:</label>
-                    <input type="text" class="form-control" placeholder="apellido" id="apellido">
+                    <label>Odontologo:</label>
+                    <input type="text" class="form-control" placeholder="odontologo" id="odontologo">
                 </div>
 
 
