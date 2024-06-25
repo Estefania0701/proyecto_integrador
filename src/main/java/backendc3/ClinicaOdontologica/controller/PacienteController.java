@@ -1,6 +1,7 @@
 package backendc3.ClinicaOdontologica.controller;
 
 import backendc3.ClinicaOdontologica.entity.Paciente;
+import backendc3.ClinicaOdontologica.exception.BadRequestException;
 import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
 import backendc3.ClinicaOdontologica.service.PacienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +25,21 @@ public class PacienteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id) throws ResourceNotFoundException {
         Paciente pacienteEncontrado = service.buscarPorId(id);
         if (pacienteEncontrado != null) {
             return ResponseEntity.ok(pacienteEncontrado);
         }
-        return ResponseEntity.notFound().build();
+        throw new ResourceNotFoundException("Paciente no encontrado");
     }
 
     @GetMapping("/buscar")
-    public ResponseEntity<Paciente> buscarPorEmail(@RequestParam String email) {
+    public ResponseEntity<Paciente> buscarPorEmail(@RequestParam String email) throws ResourceNotFoundException {
         Paciente pacienteEncontrado = service.buscarPorEmail(email);
         if (pacienteEncontrado != null) {
             return ResponseEntity.ok(pacienteEncontrado);
         }
-        return ResponseEntity.notFound().build();
+        throw new ResourceNotFoundException("Paciente no encontrado");
     }
 
     @PostMapping
@@ -50,12 +51,12 @@ public class PacienteController {
 
     @PutMapping
     public ResponseEntity<Paciente> actualizarPaciente(
-            @RequestBody Paciente paciente) {
+            @RequestBody Paciente paciente) throws BadRequestException {
         Paciente pacienteActualizado = service.actualizar(paciente);
         if (pacienteActualizado != null) {
             return ResponseEntity.ok(pacienteActualizado);
         }
-        return ResponseEntity.badRequest().build();
+        throw new BadRequestException("No se pudo actualizar el paciente");
     }
 
     @DeleteMapping("/{id}")

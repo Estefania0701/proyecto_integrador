@@ -17,9 +17,6 @@ public class TurnoController {
     @Autowired
     private TurnoService turnoService;
 
-
-
-
     @GetMapping
     public ResponseEntity<List<TurnoDTO>> buscarTodos() {
         return ResponseEntity.ok(this.turnoService.buscarTodos());

@@ -2,6 +2,7 @@ package backendc3.ClinicaOdontologica.controller;
 
 
 import backendc3.ClinicaOdontologica.entity.Odontologo;
+import backendc3.ClinicaOdontologica.exception.BadRequestException;
 import backendc3.ClinicaOdontologica.exception.ResourceNotFoundException;
 import backendc3.ClinicaOdontologica.service.OdontologoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,14 +25,23 @@ public class OdontologoController {
         return ResponseEntity.ok(odontologos);
     }
     @GetMapping("/{id}")
-    public Odontologo buscarPorId(
-            @PathVariable Long id) {
-        return odontologoService.buscarPorId(id);
+    public ResponseEntity<Odontologo> buscarPorId(
+            @PathVariable Long id) throws ResourceNotFoundException {
+        Odontologo odontologo = odontologoService.buscarPorId(id);
+        if (odontologo != null) {
+            return ResponseEntity.ok(odontologo);
+        }
+        throw new ResourceNotFoundException("Odontologo no encontrado");
+
     }
 
     @GetMapping("/buscar")
-    public Odontologo buscarPorMatricula(@RequestParam String matricula) {
-        return odontologoService.buscarPorMatricula(matricula);
+    public ResponseEntity<Odontologo> buscarPorMatricula(@RequestParam String matricula) throws ResourceNotFoundException {
+        Odontologo odontologo = odontologoService.buscarPorMatricula(matricula);
+        if (odontologo != null) {
+            return ResponseEntity.ok(odontologo);
+        }
+        throw new ResourceNotFoundException("Odontologo no encontrado");
     }
 
 
@@ -43,13 +53,12 @@ public class OdontologoController {
 
     @PutMapping
     public ResponseEntity<Odontologo> actualizar(
-            @RequestBody Odontologo odontologo) {
+            @RequestBody Odontologo odontologo) throws BadRequestException {
         Odontologo odontologoEncontrado = odontologoService.buscarPorId(odontologo.getId());
-        if (odontologoEncontrado == null) {
-            return ResponseEntity.badRequest().build();
+        if (odontologoEncontrado != null) {
+            return ResponseEntity.ok(odontologoService.actualizar(odontologo));
         }
-        odontologoService.actualizar(odontologo);
-        return ResponseEntity.ok(odontologo);
+        throw new BadRequestException("No se pudo actualizar el odontologo");
     }
 
     @DeleteMapping("/{id}")
