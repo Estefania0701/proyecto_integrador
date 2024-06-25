@@ -20,11 +20,11 @@ public class Turno {
 
     private LocalDate fecha;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "odontologo_id", nullable = false)
     private Odontologo odontologo;
 
